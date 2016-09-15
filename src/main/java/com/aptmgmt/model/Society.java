@@ -21,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "society", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = "socid"))
 public class Society implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String socid;
 	private String name;
@@ -186,6 +187,14 @@ public class Society implements java.io.Serializable {
 
 	public void setBuildings(Set buildings) {
 		this.buildings = buildings;
+	}
+
+	@Override
+	public String toString() {
+		return "Society [id=" + id + ", socid=" + socid + ", name=" + name + ", address=" + address + ", managerid="
+				+ managerid + ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby
+				+ ", loggeddate=" + loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate="
+				+ lastupdateddate + ", houses=" + houses + ", buildings=" + buildings + "]";
 	}
 
 }

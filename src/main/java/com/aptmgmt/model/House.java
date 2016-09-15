@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 @Table(name = "house", catalog = "aptmgmt")
 public class House implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Building building;
 	private Society society;
@@ -191,6 +192,14 @@ public class House implements java.io.Serializable {
 
 	public void setLastupdateddate(Date lastupdateddate) {
 		this.lastupdateddate = lastupdateddate;
+	}
+
+	@Override
+	public String toString() {
+		return "House [id=" + id + ", building=" + building + ", society=" + society + ", housenum=" + housenum
+				+ ", ownername=" + ownername + ", address=" + address + ", contact=" + contact + ", password="
+				+ password + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate
+				+ ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate + "]";
 	}
 
 }

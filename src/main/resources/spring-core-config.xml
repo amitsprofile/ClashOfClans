@@ -32,19 +32,4 @@
 		<property name="basename" value="classpath:messages"></property>
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
-	
-	<!-- DAO BEANS -->
-	<bean id="userDao" class="com.symantec.dao.UserDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	
-	<tx:annotation-driven />
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:annotation-driven />
-	<!-- ... -->
-
 </beans>
