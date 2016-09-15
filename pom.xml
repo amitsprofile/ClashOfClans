@@ -13,20 +13,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
-        <junit.version>3.8.1</junit.version>
+        <junit.version>4.12</junit.version>
         <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
         <jstl.version>1.2</jstl.version>
         <hibernate.version>5.2.2.Final</hibernate.version>
-        <mysql.version>5.1.9</mysql.version>
-        <javax.servlet.version>2.4</javax.servlet.version>
-        <log4j.version>1.2.15</log4j.version>
+        <mysql.version>6.0.3</mysql.version>
+        <javax.servlet.version>2.5</javax.servlet.version>
+        <log4j.version>1.2.17</log4j.version>
         <javassist.version>3.12.1.GA</javassist.version>
         <javax.servlet.jstl>1.2</javax.servlet.jstl>
         <taglibs.standard.version>1.1.2</taglibs.standard.version>
         <comms.dbcp.version>1.4</comms.dbcp.version>
-        <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
-        <jetty.maven.version>9.2.11.v20150529</jetty.maven.version>
-        <maven.eclipse.version>2.9</maven.eclipse.version>
+        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+        <maven.eclipse.version>2.10</maven.eclipse.version>
         <wtp.version>2.0</wtp.version>
     </properties>
 
