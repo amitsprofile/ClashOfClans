@@ -1,13 +1,17 @@
 package com.aptmgmt.dao;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
 import com.aptmgmt.model.Building;
+import com.aptmgmt.model.Society;
 
 /**
  * DAO object for domain model class Building.
@@ -69,4 +73,27 @@ public class BuildingDAOImpl implements BuildingDAO {
 			throw re;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Building> findAll() {
+		return entityManager.createQuery("SELECT b FROM Building b").getResultList();
+	}
+	
+	public Building find(String buildingName) {
+		Query query = entityManager.createNativeQuery("SELECT bd FROM Building bd WHERE bd.name=:buildingName");
+		query.setParameter("buildingName", buildingName);
+		Building instance = (Building) query.getSingleResult();
+		return instance;
+	}
+	
+	public Building findByUniqueKey(Society society, String buildingId) {
+		Query query = entityManager.createNativeQuery("SELECT bd FROM Building bd WHERE bd.socid=:societyId AND bd.buildingid=:buildingId");
+		query.setParameter("societyId", society.getId());
+		query.setParameter("buildingId", buildingId);
+		Building instance = (Building) query.getSingleResult();
+		return instance;
+	}
+
+	
 }
+	

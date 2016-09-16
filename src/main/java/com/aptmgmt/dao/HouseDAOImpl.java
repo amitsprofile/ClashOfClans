@@ -1,13 +1,18 @@
 package com.aptmgmt.dao;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
+import com.aptmgmt.model.Building;
 import com.aptmgmt.model.House;
+import com.aptmgmt.model.Society;
 
 /**
  * DAO object for domain model class House.
@@ -69,4 +74,26 @@ public class HouseDAOImpl implements HouseDAO {
 			throw re;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<House> findAll() {
+		return entityManager.createQuery("SELECT b FROM House b").getResultList();
+	}
+	
+	public House find(String houseNumber) {
+		Query query = entityManager.createNativeQuery("SELECT hs FROM House hs WHERE hs.housenum=:houseNumber");
+		query.setParameter("houseNumber", houseNumber);
+		House instance = (House) query.getSingleResult();
+		return instance;
+	}
+	
+	public House findByUniqueKey(Society society, Building building, String houseNumber) {
+		Query query = entityManager.createNativeQuery("SELECT hs FROM House hs WHERE hs.socid:=socId AND hs.buildingid=:buildingId AND hs.housenum=:houseNumber");
+		query.setParameter("socId", society.getId());
+		query.setParameter("buildingId", building.getId());
+		query.setParameter("houseNumber", houseNumber);
+		House instance = (House) query.getSingleResult();
+		return instance;
+	}
+
 }

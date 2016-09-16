@@ -1,7 +1,11 @@
 package com.aptmgmt.dao;
+
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +15,7 @@ import com.aptmgmt.model.Society;
 
 /**
  * DAO object for domain model class Society.
+ * 
  * @see com.aptmgmt.model.Society
  * @author Prakash Manwani
  */
@@ -69,4 +74,17 @@ public class SocietyDAOImpl implements SocietyDAO {
 			throw re;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Society> findAll() {
+		return entityManager.createQuery("SELECT sc FROM Society sc").getResultList();
+	}
+
+	public Society findByUniqueKey(String societyName) {
+		Query query = entityManager.createNativeQuery("SELECT sc FROM Society sc WHERE sc.name=:societyName");
+		query.setParameter("societyName", societyName);
+		Society instance = (Society) query.getSingleResult();
+		return instance;
+	}
+
 }

@@ -1,0 +1,70 @@
+CREATE SCHEMA IF NOT EXISTS `aptmgmt`;
+USE `aptmgmt`;
+CREATE TABLE `aptmgmt`.`society` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `socid` VARCHAR(10) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(45) NULL,
+  `managerid` INT NOT NULL,
+  `contact` VARCHAR(45) NULL,
+  `rowstate` INT NOT NULL DEFAULT 1,
+  `loggedby` INT NOT NULL,
+  `loggeddate` DATETIME NOT NULL DEFAULT NOW(),
+  `lastupdatedby` INT NOT NULL,
+  `lastupdateddate` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `socid_UNIQUE` (`socid` ASC));
+  
+CREATE TABLE `aptmgmt`.`building` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `buildingid` VARCHAR(10) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(45) NULL,
+  `socid` INT NOT NULL,
+  `secretaryid` INT NOT NULL,
+  `contact` VARCHAR(45) NULL,
+  `rowstate` INT NOT NULL DEFAULT 1,
+  `loggedby` INT NOT NULL,
+  `loggeddate` DATETIME NOT NULL DEFAULT NOW(),
+  `lastupdatedby` INT NOT NULL,
+  `lastupdateddate` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  foreign key (`socid`) References society(`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `buildingid_UNIQUE` (`buildingid` ASC));
+
+CREATE TABLE `aptmgmt`.`house` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `housenum` VARCHAR(10) NOT NULL,
+  `ownername` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(45) NULL,
+  `socid` INT NOT NULL,
+  `buildingid` INT NOT NULL,
+  `contact` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `rowstate` INT NOT NULL DEFAULT 1,
+  `loggedby` INT NOT NULL,
+  `loggeddate` DATETIME NOT NULL DEFAULT NOW(),
+  `lastupdatedby` INT NOT NULL,
+  `lastupdateddate` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  foreign key (`socid`) References society(`id`),
+  foreign key (`buildingid`) References building(`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+  
+  CREATE TABLE `aptmgmt`.`privileges` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userid` INT NOT NULL,
+  `admin` BINARY NOT NULL,
+  `manager` BINARY NOT NULL,
+  `secretary` BINARY NOT NULL,
+  `user` BINARY NOT NULL,
+  `rowstate` INT NOT NULL DEFAULT 1,
+  `loggedby` INT NOT NULL,
+  `loggeddate` DATETIME NOT NULL DEFAULT NOW(),
+  `lastupdatedby` INT NOT NULL,
+  `lastupdateddate` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  foreign key (`userid`) References house(`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));

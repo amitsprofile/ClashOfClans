@@ -40,7 +40,7 @@ public class Building implements java.io.Serializable {
 	private Date loggeddate;
 	private int lastupdatedby;
 	private Date lastupdateddate;
-	private Set houses = new HashSet(0);
+	private Set<House> houses = new HashSet<House>(0);
 
 	public Building() {
 	}
@@ -58,8 +58,9 @@ public class Building implements java.io.Serializable {
 		this.lastupdateddate = lastupdateddate;
 	}
 
+
 	public Building(Society society, String buildingid, String name, String address, int secretaryid, String contact,
-			int rowstate, int loggedby, Date loggeddate, int lastupdatedby, Date lastupdateddate, Set houses) {
+			int rowstate, int loggedby, Date loggeddate, int lastupdatedby, Date lastupdateddate, Set<House> houses) {
 		this.society = society;
 		this.buildingid = buildingid;
 		this.name = name;
@@ -188,12 +189,14 @@ public class Building implements java.io.Serializable {
 		this.lastupdateddate = lastupdateddate;
 	}
 
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
-	public Set getHouses() {
+	public Set<House> getHouses() {
 		return this.houses;
 	}
 
-	public void setHouses(Set houses) {
+
+	public void setHouses(Set<House> houses) {
 		this.houses = houses;
 	}
 
