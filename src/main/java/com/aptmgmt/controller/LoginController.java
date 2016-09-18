@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aptmgmt.services.BuildingService;
 import com.aptmgmt.services.HouseService;
@@ -19,7 +20,7 @@ public class LoginController {
 	@Autowired private BuildingService buildingService;
 	@Autowired private HouseService houseService;
 	
-	@RequestMapping("SocietyBuildingHouses")
+	@RequestMapping(value = "SocietyBuildingHouses", method = RequestMethod.GET)
 	public Map<String, Object> getSocietyBuildingHouses() {
 		Map<String, Object> models = new HashMap<String, Object>();
 		models.put("societies", societyService.listAllSociety());

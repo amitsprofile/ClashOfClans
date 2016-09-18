@@ -1,14 +1,17 @@
 package com.aptmgmt.model;
 // Generated Sep 14, 2016 3:22:12 AM by Hibernate Tools 4.3.1.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,11 +21,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * Building Model
  * @author Prakash Manwani
  */
 @Entity
+@Cacheable
+@Cache(region = "building", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name = "building", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = "buildingid"))
 public class Building implements java.io.Serializable {
 
@@ -207,5 +217,24 @@ public class Building implements java.io.Serializable {
 				+ rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate + ", lastupdatedby="
 				+ lastupdatedby + ", lastupdateddate=" + lastupdateddate + ", houses=" + houses + "]";
 	}
+	
+	@Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Building other = (Building) object;
+
+        return new EqualsBuilder().append(this.getId(), other.getId())
+                .append(this.getName(), other.getName()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(getId()).append(getName()).toHashCode();
+    }
 
 }

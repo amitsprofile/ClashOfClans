@@ -11,7 +11,7 @@ public interface BuildingDAO {
 
 	public void remove(Building persistentInstance);
 
-	public Building merge(Building detachedInstance);
+	public Building save(Building detachedInstance);
 
 	public Building findById(Integer id);
 	

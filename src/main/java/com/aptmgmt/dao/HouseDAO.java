@@ -12,7 +12,7 @@ public interface HouseDAO {
 
 	public void remove(House persistentInstance);
 
-	public House merge(House detachedInstance);
+	public House save(House detachedInstance);
 
 	public House findById(Integer id);
 	

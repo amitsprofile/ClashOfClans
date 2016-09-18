@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +29,7 @@ public class HouseDAOImpl implements HouseDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Override
 	public void persist(House transientInstance) {
 		log.debug("persisting House instance");
 		try {
@@ -39,7 +40,8 @@ public class HouseDAOImpl implements HouseDAO {
 			throw re;
 		}
 	}
-
+	
+	@Override
 	public void remove(House persistentInstance) {
 		log.debug("removing House instance");
 		try {
@@ -51,7 +53,8 @@ public class HouseDAOImpl implements HouseDAO {
 		}
 	}
 
-	public House merge(House detachedInstance) {
+	@Override
+	public House save(House detachedInstance) {
 		log.debug("merging House instance");
 		try {
 			House result = entityManager.merge(detachedInstance);
@@ -63,6 +66,7 @@ public class HouseDAOImpl implements HouseDAO {
 		}
 	}
 
+	@Override
 	public House findById(Integer id) {
 		log.debug("getting House instance with id: " + id);
 		try {
@@ -75,24 +79,30 @@ public class HouseDAOImpl implements HouseDAO {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@Override
 	public List<House> findAll() {
-		return entityManager.createQuery("SELECT b FROM House b").getResultList();
+		String hql = "SELECT h FROM House h";
+		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
+		return query.getResultList();
 	}
 	
+	@Override
 	public House find(String houseNumber) {
-		Query query = entityManager.createNativeQuery("SELECT hs FROM House hs WHERE hs.housenum=:houseNumber");
+		String hql = "SELECT hs FROM House hs WHERE hs.housenum=:houseNumber";
+		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
 		query.setParameter("houseNumber", houseNumber);
-		House instance = (House) query.getSingleResult();
+		House instance = query.getSingleResult();
 		return instance;
 	}
 	
+	@Override
 	public House findByUniqueKey(Society society, Building building, String houseNumber) {
-		Query query = entityManager.createNativeQuery("SELECT hs FROM House hs WHERE hs.socid:=socId AND hs.buildingid=:buildingId AND hs.housenum=:houseNumber");
+		String hql = "SELECT hs FROM House hs WHERE hs.socid:=socId AND hs.buildingid=:buildingId AND hs.housenum=:houseNumber";
+		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
 		query.setParameter("socId", society.getId());
 		query.setParameter("buildingId", building.getId());
 		query.setParameter("houseNumber", houseNumber);
-		House instance = (House) query.getSingleResult();
+		House instance = query.getSingleResult();
 		return instance;
 	}
 

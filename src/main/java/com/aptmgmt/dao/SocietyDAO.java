@@ -10,7 +10,7 @@ public interface SocietyDAO {
 
 	public void remove(Society persistentInstance);
 
-	public Society merge(Society detachedInstance);
+	public Society save(Society detachedInstance);
 
 	public Society findById(Integer id);
 	

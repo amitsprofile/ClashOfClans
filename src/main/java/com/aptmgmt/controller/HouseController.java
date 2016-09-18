@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aptmgmt.model.House;
@@ -34,8 +35,8 @@ public class HouseController {
 		ctx.close();
 	}
 	
-	@RequestMapping(value = "addhouse")
-	public @ResponseBody House addHouse(House house) {
+	@RequestMapping(value = "addhouse" , method = RequestMethod.POST)
+	public @ResponseBody House addHouse(@RequestParam(value="house") House house) {
 		return houseService.addHouse(house);
 	}
 	

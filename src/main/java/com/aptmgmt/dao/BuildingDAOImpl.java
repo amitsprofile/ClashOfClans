@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +28,7 @@ public class BuildingDAOImpl implements BuildingDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Override
 	public void persist(Building transientInstance) {
 		log.debug("persisting Building instance");
 		try {
@@ -39,6 +40,7 @@ public class BuildingDAOImpl implements BuildingDAO {
 		}
 	}
 
+	@Override
 	public void remove(Building persistentInstance) {
 		log.debug("removing Building instance");
 		try {
@@ -50,7 +52,8 @@ public class BuildingDAOImpl implements BuildingDAO {
 		}
 	}
 
-	public Building merge(Building detachedInstance) {
+	@Override
+	public Building save(Building detachedInstance) {
 		log.debug("merging Building instance");
 		try {
 			Building result = entityManager.merge(detachedInstance);
@@ -61,7 +64,8 @@ public class BuildingDAOImpl implements BuildingDAO {
 			throw re;
 		}
 	}
-
+		
+	@Override
 	public Building findById(Integer id) {
 		log.debug("getting Building instance with id: " + id);
 		try {
@@ -74,26 +78,30 @@ public class BuildingDAOImpl implements BuildingDAO {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@Override
 	public List<Building> findAll() {
-		return entityManager.createQuery("SELECT b FROM Building b").getResultList();
+		String hql = "SELECT b FROM Building b";
+		TypedQuery<Building> query = this.entityManager.createQuery(hql, Building.class);
+		return query.getResultList();
 	}
 	
+	@Override
 	public Building find(String buildingName) {
-		Query query = entityManager.createNativeQuery("SELECT bd FROM Building bd WHERE bd.name=:buildingName");
+		String hql = "SELECT bd FROM Building bd WHERE bd.name=:buildingName";
+		TypedQuery<Building> query = this.entityManager.createQuery(hql,Building.class);
 		query.setParameter("buildingName", buildingName);
-		Building instance = (Building) query.getSingleResult();
+		Building instance = query.getSingleResult();
 		return instance;
 	}
 	
+	@Override
 	public Building findByUniqueKey(Society society, String buildingId) {
-		Query query = entityManager.createNativeQuery("SELECT bd FROM Building bd WHERE bd.socid=:societyId AND bd.buildingid=:buildingId");
+		String hql = "SELECT bd FROM Building bd WHERE bd.socid=:societyId AND bd.buildingid=:buildingId";
+		TypedQuery<Building> query = this.entityManager.createQuery(hql,Building.class);
 		query.setParameter("societyId", society.getId());
 		query.setParameter("buildingId", buildingId);
-		Building instance = (Building) query.getSingleResult();
+		Building instance = query.getSingleResult();
 		return instance;
 	}
-
-	
 }
 	

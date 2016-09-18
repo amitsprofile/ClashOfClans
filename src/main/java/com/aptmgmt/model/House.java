@@ -1,12 +1,15 @@
 package com.aptmgmt.model;
 // Generated Sep 14, 2016 3:22:12 AM by Hibernate Tools 4.3.1.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
+
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,11 +17,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * House Model
  * @author Prakash Manwani
  */
 @Entity
+@Cacheable
+@Cache(region = "house", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name = "house", catalog = "aptmgmt")
 public class House implements java.io.Serializable {
 
@@ -201,5 +211,24 @@ public class House implements java.io.Serializable {
 				+ password + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate
 				+ ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate + "]";
 	}
+	
+	@Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        House other = (House) object;
+
+        return new EqualsBuilder().append(this.getId(), other.getId())
+                .append(this.getHousenum(), other.getHousenum()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(getId()).append(getHousenum()).toHashCode();
+    }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +29,7 @@ public class SocietyDAOImpl implements SocietyDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Override
 	public void persist(Society transientInstance) {
 		log.debug("persisting Society instance");
 		try {
@@ -40,6 +41,7 @@ public class SocietyDAOImpl implements SocietyDAO {
 		}
 	}
 
+	@Override
 	public void remove(Society persistentInstance) {
 		log.debug("removing Society instance");
 		try {
@@ -51,7 +53,8 @@ public class SocietyDAOImpl implements SocietyDAO {
 		}
 	}
 
-	public Society merge(Society detachedInstance) {
+	@Override
+	public Society save(Society detachedInstance) {
 		log.debug("merging Society instance");
 		try {
 			Society result = entityManager.merge(detachedInstance);
@@ -63,6 +66,7 @@ public class SocietyDAOImpl implements SocietyDAO {
 		}
 	}
 
+	@Override
 	public Society findById(Integer id) {
 		log.debug("getting Society instance with id: " + id);
 		try {
@@ -75,16 +79,19 @@ public class SocietyDAOImpl implements SocietyDAO {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public List<Society> findAll() {
-		return entityManager.createQuery("SELECT sc FROM Society sc").getResultList();
+		String hql = "SELECT sc FROM Society sc";
+		TypedQuery<Society> query = this.entityManager.createQuery(hql, Society.class);
+		return query.getResultList();
 	}
 
+	@Override
 	public Society findByUniqueKey(String societyName) {
-		Query query = entityManager.createNativeQuery("SELECT sc FROM Society sc WHERE sc.name=:societyName");
+		String hql = "SELECT sc FROM Society sc WHERE sc.name=:societyName";
+		TypedQuery<Society> query = this.entityManager.createQuery(hql,Society.class);
 		query.setParameter("societyName", societyName);
-		Society instance = (Society) query.getSingleResult();
+		Society instance = query.getSingleResult();
 		return instance;
 	}
-
 }
