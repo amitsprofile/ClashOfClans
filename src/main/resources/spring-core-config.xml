@@ -20,7 +20,7 @@
 	<context:annotation-config />
 	<cache:annotation-driven />
 	<context:component-scan base-package="com.aptmgmt" />
-	<import resource="/WEB-INF/jpaConfig/jpa-datasource.xml"/>
+	<import resource="classpath:../jpaConfig/jpa-datasource.xml"/>
 	
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -45,7 +45,7 @@
     	<property name="cacheManager" ref="ehcache"/>
     </bean>
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-    	<property name="configLocation" value="/WEB-INF/ehcache-logger/ehcache.xml"/>
+    	<property name="configLocation" value="classpath:../ehcache-logger/ehcache.xml"/>
     	<property name="shared" value="true"/>
     </bean>
 

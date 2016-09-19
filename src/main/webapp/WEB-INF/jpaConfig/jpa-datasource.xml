@@ -43,7 +43,7 @@
 				<property name="showSql" value="true" />
 			</bean>
 		</property>
-		<property name="persistenceXmlLocation" value="classpath:persistence.xml" />
+		<property name="persistenceXmlLocation" value="classpath:../jpaConfig/persistence.xml" />
 		<property name="persistenceUnitName" value="aptmgmt" />
 	</bean>
 	

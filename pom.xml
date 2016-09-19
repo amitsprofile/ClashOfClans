@@ -306,10 +306,10 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>http://localhost:8080/manager</url>
-					<server>tomcat_aptmgmt</server>
-					<path>/aptmgmt</path>
-					<username>admin</username>
+					<url>http://localhost:8080/manager/text</url>
+					<server>localTomcat</server>
+					<path>/aptmgmt-1.0</path>
+					<username>tomcat</username>
 					<password>welcome1</password>
 				</configuration>
 			</plugin>
@@ -319,6 +319,7 @@
 				<version>2.6</version>
 				<configuration>
 					<archive>
+					<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
 						<manifestEntries>
 							<Implementation-Build>${buildNumber}</Implementation-Build>
 							<Implementation-Title>${project.name}</Implementation-Title>
@@ -330,18 +331,16 @@
 							<SCM>${buildNumber}</SCM>
 						</manifestEntries>
 					</archive>
-					<packagingExcludes>**/WEB-INF/lib/*.jar</packagingExcludes>
 				</configuration>
 			</plugin>
-			
 			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
-        <configuration>
-          <skipTests>${skipTests}</skipTests>
-        </configuration>
-      </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

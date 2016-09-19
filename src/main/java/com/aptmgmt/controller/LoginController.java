@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,6 +20,13 @@ public class LoginController {
 	@Autowired private SocietyService societyService;
 	@Autowired private BuildingService buildingService;
 	@Autowired private HouseService houseService;
+	
+	
+	@RequestMapping(method = RequestMethod.GET)
+	   public String printHello(ModelMap model) {
+	      model.addAttribute("message", "Hello to Society Management!");
+	      return "login";
+	   }
 	
 	@RequestMapping(value = "SocietyBuildingHouses", method = RequestMethod.GET)
 	public Map<String, Object> getSocietyBuildingHouses() {
