@@ -19,7 +19,7 @@ public class HouseServiceImpl implements HouseService {
 	@Transactional
 	public House addHouse(House house){
 		houseDao.persist(house);
-		return houseDao.findByUniqueKey(house.getSociety(), house.getBuilding(), house.getHousenum());
+		return houseDao.findByUniqueKey(house.getBuilding().getSociety(), house.getBuilding(), house.getHousenum());
 	}
 	
 	@Transactional

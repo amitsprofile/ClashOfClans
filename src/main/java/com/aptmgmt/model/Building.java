@@ -28,6 +28,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * Building Model
+ * 
  * @author Prakash Manwani
  */
 @Entity
@@ -36,7 +37,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "building", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = "buildingid"))
 public class Building implements java.io.Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Society society;
@@ -48,7 +48,7 @@ public class Building implements java.io.Serializable {
 	private int rowstate;
 	private int loggedby;
 	private Date loggeddate;
-	private int lastupdatedby;
+	private Integer lastupdatedby;
 	private Date lastupdateddate;
 	private Set<House> houses = new HashSet<House>(0);
 
@@ -56,7 +56,7 @@ public class Building implements java.io.Serializable {
 	}
 
 	public Building(Society society, String buildingid, String name, int secretaryid, int rowstate, int loggedby,
-			Date loggeddate, int lastupdatedby, Date lastupdateddate) {
+			Date loggeddate) {
 		this.society = society;
 		this.buildingid = buildingid;
 		this.name = name;
@@ -64,13 +64,11 @@ public class Building implements java.io.Serializable {
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
-		this.lastupdatedby = lastupdatedby;
-		this.lastupdateddate = lastupdateddate;
 	}
 
-
 	public Building(Society society, String buildingid, String name, String address, int secretaryid, String contact,
-			int rowstate, int loggedby, Date loggeddate, int lastupdatedby, Date lastupdateddate, Set<House> houses) {
+			int rowstate, int loggedby, Date loggeddate, Integer lastupdatedby, Date lastupdateddate,
+			Set<House> houses) {
 		this.society = society;
 		this.buildingid = buildingid;
 		this.name = name;
@@ -180,17 +178,17 @@ public class Building implements java.io.Serializable {
 		this.loggeddate = loggeddate;
 	}
 
-	@Column(name = "lastupdatedby", nullable = false)
-	public int getLastupdatedby() {
+	@Column(name = "lastupdatedby")
+	public Integer getLastupdatedby() {
 		return this.lastupdatedby;
 	}
 
-	public void setLastupdatedby(int lastupdatedby) {
+	public void setLastupdatedby(Integer lastupdatedby) {
 		this.lastupdatedby = lastupdatedby;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "lastupdateddate", nullable = false, length = 19)
+	@Column(name = "lastupdateddate", length = 19)
 	public Date getLastupdateddate() {
 		return this.lastupdateddate;
 	}
@@ -199,17 +197,35 @@ public class Building implements java.io.Serializable {
 		this.lastupdateddate = lastupdateddate;
 	}
 
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
 	public Set<House> getHouses() {
 		return this.houses;
 	}
 
-
 	public void setHouses(Set<House> houses) {
 		this.houses = houses;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
+		Building other = (Building) object;
+
+		return new EqualsBuilder().append(this.getId(), other.getId()).append(this.getName(), other.getName())
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getId()).append(getName()).toHashCode();
+	}
+
+	
 	@Override
 	public String toString() {
 		return "Building [id=" + id + ", society=" + society + ", buildingid=" + buildingid + ", name=" + name
@@ -217,24 +233,5 @@ public class Building implements java.io.Serializable {
 				+ rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate + ", lastupdatedby="
 				+ lastupdatedby + ", lastupdateddate=" + lastupdateddate + ", houses=" + houses + "]";
 	}
-	
-	@Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Building other = (Building) object;
-
-        return new EqualsBuilder().append(this.getId(), other.getId())
-                .append(this.getName(), other.getName()).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(getId()).append(getName()).toHashCode();
-    }
 
 }

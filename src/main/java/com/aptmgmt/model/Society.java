@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,47 +35,42 @@ public class Society implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
+	private Users users;
 	private String socid;
 	private String name;
 	private String address;
-	private int managerid;
 	private String contact;
 	private int rowstate;
 	private int loggedby;
 	private Date loggeddate;
-	private int lastupdatedby;
+	private Integer lastupdatedby;
 	private Date lastupdateddate;
-	private Set<House> houses = new HashSet<House>(0);
 	private Set<Building> buildings = new HashSet<Building>(0);
 
 	public Society() {
 	}
 
-	public Society(String socid, String name, int managerid, int rowstate, int loggedby, Date loggeddate,
-			int lastupdatedby, Date lastupdateddate) {
+	public Society(Users users, String socid, String name, int rowstate, int loggedby, Date loggeddate) {
+		this.users = users;
 		this.socid = socid;
 		this.name = name;
-		this.managerid = managerid;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
-		this.lastupdatedby = lastupdatedby;
-		this.lastupdateddate = lastupdateddate;
 	}
 
-	public Society(String socid, String name, String address, int managerid, String contact, int rowstate, int loggedby,
-			Date loggeddate, int lastupdatedby, Date lastupdateddate, Set<House> houses, Set<Building> buildings) {
+	public Society(Users users, String socid, String name, String address, String contact, int rowstate, int loggedby,
+			Date loggeddate, Integer lastupdatedby, Date lastupdateddate, Set<Building> buildings) {
+		this.users = users;
 		this.socid = socid;
 		this.name = name;
 		this.address = address;
-		this.managerid = managerid;
 		this.contact = contact;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
 		this.lastupdatedby = lastupdatedby;
 		this.lastupdateddate = lastupdateddate;
-		this.houses = houses;
 		this.buildings = buildings;
 	}
 
@@ -87,6 +84,16 @@ public class Society implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "managerid", nullable = false)
+	public Users getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	@Column(name = "socid", unique = true, nullable = false, length = 10)
@@ -114,15 +121,6 @@ public class Society implements java.io.Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	@Column(name = "managerid", nullable = false)
-	public int getManagerid() {
-		return this.managerid;
-	}
-
-	public void setManagerid(int managerid) {
-		this.managerid = managerid;
 	}
 
 	@Column(name = "contact", length = 45)
@@ -162,34 +160,23 @@ public class Society implements java.io.Serializable {
 		this.loggeddate = loggeddate;
 	}
 
-	@Column(name = "lastupdatedby", nullable = false)
-	public int getLastupdatedby() {
+	@Column(name = "lastupdatedby")
+	public Integer getLastupdatedby() {
 		return this.lastupdatedby;
 	}
 
-	public void setLastupdatedby(int lastupdatedby) {
+	public void setLastupdatedby(Integer lastupdatedby) {
 		this.lastupdatedby = lastupdatedby;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "lastupdateddate", nullable = false, length = 19)
+	@Column(name = "lastupdateddate", length = 19)
 	public Date getLastupdateddate() {
 		return this.lastupdateddate;
 	}
 
 	public void setLastupdateddate(Date lastupdateddate) {
 		this.lastupdateddate = lastupdateddate;
-	}
-
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "society")
-	public Set<House> getHouses() {
-		return this.houses;
-	}
-
-	
-	public void setHouses(Set<House> houses) {
-		this.houses = houses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "society")
@@ -201,14 +188,6 @@ public class Society implements java.io.Serializable {
 		this.buildings = buildings;
 	}
 
-	@Override
-	public String toString() {
-		return "Society [id=" + id + ", socid=" + socid + ", name=" + name + ", address=" + address + ", managerid="
-				+ managerid + ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby
-				+ ", loggeddate=" + loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate="
-				+ lastupdateddate + ", houses=" + houses + ", buildings=" + buildings + "]";
-	}
-	
 	@Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -227,5 +206,13 @@ public class Society implements java.io.Serializable {
     public int hashCode() {
         return new HashCodeBuilder().append(getId()).append(getName()).toHashCode();
     }
+
+	@Override
+	public String toString() {
+		return "Society [id=" + id + ", users=" + users + ", socid=" + socid + ", name=" + name + ", address=" + address
+				+ ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate="
+				+ loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate
+				+ ", buildings=" + buildings + "]";
+	}
 
 }

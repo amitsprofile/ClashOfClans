@@ -3,6 +3,7 @@ package com.aptmgmt.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,7 @@ public class SocietyController {
 		return societyService.addSociety(society);
 	}
 	
-	@RequestMapping(value = "getallsocieties", method = RequestMethod.GET)
+	@RequestMapping(value = "getallsocieties", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Society> getAllHouses() {
 		return societyService.listAllSociety();
 	}

@@ -35,44 +35,39 @@ public class House implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Building building;
-	private Society society;
+	private Users usersByResidentid;
+	private Users usersByOwnerid;
 	private String housenum;
-	private String ownername;
 	private String address;
 	private String contact;
-	private String password;
 	private int rowstate;
 	private int loggedby;
 	private Date loggeddate;
-	private int lastupdatedby;
+	private Integer lastupdatedby;
 	private Date lastupdateddate;
 
 	public House() {
 	}
 
-	public House(Building building, Society society, String housenum, String ownername, String password, int rowstate,
-			int loggedby, Date loggeddate, int lastupdatedby, Date lastupdateddate) {
+	public House(Building building, Users usersByResidentid, Users usersByOwnerid, String housenum, int rowstate,
+			int loggedby, Date loggeddate) {
 		this.building = building;
-		this.society = society;
+		this.usersByResidentid = usersByResidentid;
+		this.usersByOwnerid = usersByOwnerid;
 		this.housenum = housenum;
-		this.ownername = ownername;
-		this.password = password;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
-		this.lastupdatedby = lastupdatedby;
-		this.lastupdateddate = lastupdateddate;
 	}
 
-	public House(Building building, Society society, String housenum, String ownername, String address, String contact,
-			String password, int rowstate, int loggedby, Date loggeddate, int lastupdatedby, Date lastupdateddate) {
+	public House(Building building, Users usersByResidentid, Users usersByOwnerid, String housenum, String address,
+			String contact, int rowstate, int loggedby, Date loggeddate, Integer lastupdatedby, Date lastupdateddate) {
 		this.building = building;
-		this.society = society;
+		this.usersByResidentid = usersByResidentid;
+		this.usersByOwnerid = usersByOwnerid;
 		this.housenum = housenum;
-		this.ownername = ownername;
 		this.address = address;
 		this.contact = contact;
-		this.password = password;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
@@ -103,13 +98,23 @@ public class House implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "socid", nullable = false)
-	public Society getSociety() {
-		return this.society;
+	@JoinColumn(name = "residentid", nullable = false)
+	public Users getUsersByResidentid() {
+		return this.usersByResidentid;
 	}
 
-	public void setSociety(Society society) {
-		this.society = society;
+	public void setUsersByResidentid(Users usersByResidentid) {
+		this.usersByResidentid = usersByResidentid;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ownerid", nullable = false)
+	public Users getUsersByOwnerid() {
+		return this.usersByOwnerid;
+	}
+
+	public void setUsersByOwnerid(Users usersByOwnerid) {
+		this.usersByOwnerid = usersByOwnerid;
 	}
 
 	@Column(name = "housenum", nullable = false, length = 10)
@@ -119,15 +124,6 @@ public class House implements java.io.Serializable {
 
 	public void setHousenum(String housenum) {
 		this.housenum = housenum;
-	}
-
-	@Column(name = "ownername", nullable = false, length = 45)
-	public String getOwnername() {
-		return this.ownername;
-	}
-
-	public void setOwnername(String ownername) {
-		this.ownername = ownername;
 	}
 
 	@Column(name = "address", length = 45)
@@ -146,15 +142,6 @@ public class House implements java.io.Serializable {
 
 	public void setContact(String contact) {
 		this.contact = contact;
-	}
-
-	@Column(name = "password", nullable = false, length = 45)
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	@Column(name = "rowstate", nullable = false)
@@ -185,17 +172,17 @@ public class House implements java.io.Serializable {
 		this.loggeddate = loggeddate;
 	}
 
-	@Column(name = "lastupdatedby", nullable = false)
-	public int getLastupdatedby() {
+	@Column(name = "lastupdatedby")
+	public Integer getLastupdatedby() {
 		return this.lastupdatedby;
 	}
 
-	public void setLastupdatedby(int lastupdatedby) {
+	public void setLastupdatedby(Integer lastupdatedby) {
 		this.lastupdatedby = lastupdatedby;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "lastupdateddate", nullable = false, length = 19)
+	@Column(name = "lastupdateddate", length = 19)
 	public Date getLastupdateddate() {
 		return this.lastupdateddate;
 	}
@@ -204,14 +191,6 @@ public class House implements java.io.Serializable {
 		this.lastupdateddate = lastupdateddate;
 	}
 
-	@Override
-	public String toString() {
-		return "House [id=" + id + ", building=" + building + ", society=" + society + ", housenum=" + housenum
-				+ ", ownername=" + ownername + ", address=" + address + ", contact=" + contact + ", password="
-				+ password + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate
-				+ ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate + "]";
-	}
-	
 	@Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -230,5 +209,13 @@ public class House implements java.io.Serializable {
     public int hashCode() {
         return new HashCodeBuilder().append(getId()).append(getHousenum()).toHashCode();
     }
+    
+	@Override
+	public String toString() {
+		return "House [id=" + id + ", building=" + building + ", usersByResidentid=" + usersByResidentid
+				+ ", usersByOwnerid=" + usersByOwnerid + ", housenum=" + housenum + ", address=" + address
+				+ ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate="
+				+ loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate + "]";
+	}
 
 }
