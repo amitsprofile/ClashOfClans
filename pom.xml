@@ -19,7 +19,7 @@
 		<mysql.connector.version>5.1.38</mysql.connector.version>
 		<javax.servlet.version>2.5</javax.servlet.version>
 		<log4j.version>1.2.17</log4j.version>
-		<javassist.version>3.12.1.GA</javassist.version>
+		<javaassist.version>3.21.0-GA</javaassist.version>
 		<javax.servlet.jstl>1.2</javax.servlet.jstl>
 		<taglibs.standard.version>1.1.2</taglibs.standard.version>
 		<comms.dbcp.version>1.4</comms.dbcp.version>
@@ -270,13 +270,21 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>${javassist.version}</version>
-		</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+<dependency>
+    <groupId>org.javassist</groupId>
+    <artifactId>javassist</artifactId>
+    <version>${javaassist.version}</version>
+</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>

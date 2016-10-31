@@ -3,13 +3,16 @@ package com.aptmgmt.dao;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
 
 import com.aptmgmt.model.Users;
 
+@Repository
 @Stateless
 public class UsersDAOImpl implements UsersDAO {
 	private static final Log log = LogFactory.getLog(UsersDAO.class);
@@ -63,5 +66,12 @@ public class UsersDAOImpl implements UsersDAO {
 			throw re;
 		}
 	}
-
+	
+	public Users findByUsername(String username) {
+		String hql = "SELECT hs FROM Users hs WHERE hs.username=:username";
+		TypedQuery<Users> query = this.entityManager.createQuery(hql, Users.class);
+		query.setParameter("username", username);
+		Users instance = query.getSingleResult();
+		return instance;
+	}
 }

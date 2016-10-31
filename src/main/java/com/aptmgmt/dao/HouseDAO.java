@@ -22,4 +22,6 @@ public interface HouseDAO {
 	
 	public House findByUniqueKey(Society society, Building building, String houseNumber);
 	
+	public House findByUserId(Integer userId);
+	
 }

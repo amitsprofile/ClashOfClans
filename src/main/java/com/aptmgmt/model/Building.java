@@ -95,7 +95,7 @@ public class Building implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "socid", nullable = false)
 	public Society getSociety() {
 		return this.society;
@@ -197,7 +197,7 @@ public class Building implements java.io.Serializable {
 		this.lastupdateddate = lastupdateddate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "building")
 	public Set<House> getHouses() {
 		return this.houses;
 	}

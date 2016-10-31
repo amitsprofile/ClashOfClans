@@ -82,7 +82,7 @@ public class UserRoles implements java.io.Serializable {
 		this.userRoleId = userRoleId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleid", nullable = false)
 	public Roles getRoles() {
 		return this.roles;
@@ -92,7 +92,7 @@ public class UserRoles implements java.io.Serializable {
 		this.roles = roles;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "username", nullable = false)
 	public Users getUsersByUsername() {
 		return this.usersByUsername;
@@ -102,7 +102,7 @@ public class UserRoles implements java.io.Serializable {
 		this.usersByUsername = usersByUsername;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	public Users getUsersByUserId() {
 		return this.usersByUserId;

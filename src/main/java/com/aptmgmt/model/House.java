@@ -87,7 +87,7 @@ public class House implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "buildingid", nullable = false)
 	public Building getBuilding() {
 		return this.building;
@@ -97,7 +97,7 @@ public class House implements java.io.Serializable {
 		this.building = building;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "residentid", nullable = false)
 	public Users getUsersByResidentid() {
 		return this.usersByResidentid;
@@ -107,7 +107,7 @@ public class House implements java.io.Serializable {
 		this.usersByResidentid = usersByResidentid;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ownerid", nullable = false)
 	public Users getUsersByOwnerid() {
 		return this.usersByOwnerid;

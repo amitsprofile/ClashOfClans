@@ -6,9 +6,11 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Repository;
 
 import com.aptmgmt.model.UserRoles;
 
+@Repository
 @Stateless
 public class UserRolesDAOImpl implements UserRolesDAO {
 	private static final Log log = LogFactory.getLog(UserRolesDAO.class);

@@ -11,4 +11,6 @@ public interface UsersDAO {
 	public Users merge(Users detachedInstance);
 
 	public Users findById(String id);
+
+	public Users findByUsername(String username);
 }

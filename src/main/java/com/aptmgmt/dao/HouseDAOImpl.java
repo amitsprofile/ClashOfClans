@@ -1,4 +1,7 @@
 package com.aptmgmt.dao;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,6 +19,7 @@ import com.aptmgmt.model.Society;
 
 /**
  * DAO object for domain model class House.
+ * 
  * @see com.aptmgmt.model.House
  * @author Prakash Manwani
  */
@@ -40,7 +44,7 @@ public class HouseDAOImpl implements HouseDAO {
 			throw re;
 		}
 	}
-	
+
 	@Override
 	public void remove(House persistentInstance) {
 		log.debug("removing House instance");
@@ -78,27 +82,48 @@ public class HouseDAOImpl implements HouseDAO {
 			throw re;
 		}
 	}
-	
+
 	@Override
 	public List<House> findAll() {
 		String hql = "SELECT h FROM House h";
-		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
+		TypedQuery<House> query = this.entityManager.createQuery(hql, House.class);
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public House find(String houseNumber) {
 		String hql = "SELECT hs FROM House hs WHERE hs.housenum=:houseNumber";
-		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
+		TypedQuery<House> query = this.entityManager.createQuery(hql, House.class);
 		query.setParameter("houseNumber", houseNumber);
 		House instance = query.getSingleResult();
 		return instance;
 	}
-	
+
+	public House findByUserId(Integer userId) {
+		
+		try{
+			String hql = "SELECT hs FROM House hs WHERE hs.usersByResidentid.id=:userId or hs.usersByOwnerid.id=:userId";
+		TypedQuery<House> query = this.entityManager.createQuery(hql, House.class);
+		query.setParameter("userId", userId);
+		House instance = query.getSingleResult();
+		
+
+			FileOutputStream fout = new FileOutputStream("house.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(instance);
+			oos.close();
+			System.out.println("Done");
+
+		   }catch(Exception ex){
+			   ex.printStackTrace();
+		   }
+		return null;
+	}
+
 	@Override
 	public House findByUniqueKey(Society society, Building building, String houseNumber) {
 		String hql = "SELECT hs FROM House hs WHERE hs.socid:=socId AND hs.buildingid=:buildingId AND hs.housenum=:houseNumber";
-		TypedQuery<House> query = this.entityManager.createQuery(hql,House.class);
+		TypedQuery<House> query = this.entityManager.createQuery(hql, House.class);
 		query.setParameter("socId", society.getId());
 		query.setParameter("buildingId", building.getId());
 		query.setParameter("houseNumber", houseNumber);

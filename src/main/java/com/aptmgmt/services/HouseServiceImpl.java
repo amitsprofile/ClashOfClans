@@ -38,4 +38,10 @@ public class HouseServiceImpl implements HouseService {
 	public House findByHouseNumber(String houseNumber){
 		return houseDao.find(houseNumber);
 	}
+	
+	@Transactional
+	public House findHouseByUserId(Integer userId){
+		return houseDao.findByUserId(userId);
+	}
+	
 }
