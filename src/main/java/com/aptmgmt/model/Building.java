@@ -26,6 +26,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Building Model
  * 
@@ -97,6 +100,7 @@ public class Building implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "socid", nullable = false)
+	@JsonBackReference
 	public Society getSociety() {
 		return this.society;
 	}
@@ -198,6 +202,7 @@ public class Building implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "building")
+	@JsonManagedReference
 	public Set<House> getHouses() {
 		return this.houses;
 	}

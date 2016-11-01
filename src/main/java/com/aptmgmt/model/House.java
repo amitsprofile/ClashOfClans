@@ -22,6 +22,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * House Model
  * @author Prakash Manwani
@@ -35,8 +37,8 @@ public class House implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Building building;
-	private Users usersByResidentid;
-	private Users usersByOwnerid;
+	private User userByResidentid;
+	private User userByOwnerid;
 	private String housenum;
 	private String address;
 	private String contact;
@@ -49,22 +51,22 @@ public class House implements java.io.Serializable {
 	public House() {
 	}
 
-	public House(Building building, Users usersByResidentid, Users usersByOwnerid, String housenum, int rowstate,
+	public House(Building building, User userByResidentid, User userByOwnerid, String housenum, int rowstate,
 			int loggedby, Date loggeddate) {
 		this.building = building;
-		this.usersByResidentid = usersByResidentid;
-		this.usersByOwnerid = usersByOwnerid;
+		this.userByResidentid = userByResidentid;
+		this.userByOwnerid = userByOwnerid;
 		this.housenum = housenum;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
 	}
 
-	public House(Building building, Users usersByResidentid, Users usersByOwnerid, String housenum, String address,
+	public House(Building building, User userByResidentid, User userByOwnerid, String housenum, String address,
 			String contact, int rowstate, int loggedby, Date loggeddate, Integer lastupdatedby, Date lastupdateddate) {
 		this.building = building;
-		this.usersByResidentid = usersByResidentid;
-		this.usersByOwnerid = usersByOwnerid;
+		this.userByResidentid = userByResidentid;
+		this.userByOwnerid = userByOwnerid;
 		this.housenum = housenum;
 		this.address = address;
 		this.contact = contact;
@@ -89,6 +91,7 @@ public class House implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "buildingid", nullable = false)
+	@JsonBackReference
 	public Building getBuilding() {
 		return this.building;
 	}
@@ -99,22 +102,24 @@ public class House implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "residentid", nullable = false)
-	public Users getUsersByResidentid() {
-		return this.usersByResidentid;
+	@JsonBackReference
+	public User getUserByResidentid() {
+		return this.userByResidentid;
 	}
 
-	public void setUsersByResidentid(Users usersByResidentid) {
-		this.usersByResidentid = usersByResidentid;
+	public void setUserByResidentid(User userByResidentid) {
+		this.userByResidentid = userByResidentid;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ownerid", nullable = false)
-	public Users getUsersByOwnerid() {
-		return this.usersByOwnerid;
+	@JsonBackReference
+	public User getUserByOwnerid() {
+		return this.userByOwnerid;
 	}
 
-	public void setUsersByOwnerid(Users usersByOwnerid) {
-		this.usersByOwnerid = usersByOwnerid;
+	public void setUserByOwnerid(User userByOwnerid) {
+		this.userByOwnerid = userByOwnerid;
 	}
 
 	@Column(name = "housenum", nullable = false, length = 10)
@@ -212,8 +217,8 @@ public class House implements java.io.Serializable {
     
 	@Override
 	public String toString() {
-		return "House [id=" + id + ", building=" + building + ", usersByResidentid=" + usersByResidentid
-				+ ", usersByOwnerid=" + usersByOwnerid + ", housenum=" + housenum + ", address=" + address
+		return "House [id=" + id + ", building=" + building + ", userByResidentid=" + userByResidentid
+				+ ", userByOwnerid=" + userByOwnerid + ", housenum=" + housenum + ", address=" + address
 				+ ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate="
 				+ loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate + "]";
 	}

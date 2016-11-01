@@ -11,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.aptmgmt.model.Users;
+import com.aptmgmt.model.User;
 import com.aptmgmt.services.UserDetailService;
 
 @Component
@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
           String username = authentication.getName();
           String password = (String) authentication.getCredentials();
 
-            Users user = userService.loadUserByUsername(username);
+            User user = userService.loadUserByUsername(username);
      
             if (user == null || !user.getUsername().equalsIgnoreCase(username)) {
                 throw new BadCredentialsException("Username not found.");

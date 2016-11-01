@@ -23,7 +23,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * UserRoles Model
+ * UserRole Model
  * 
  * @author Prakash Manwani
  */
@@ -32,37 +32,37 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(region = "user_roles", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name = "user_roles", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = { "roleid",
 		"username" }))
-public class UserRoles implements java.io.Serializable {
+public class UserRole implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer userRoleId;
 	private Roles roles;
-	private Users usersByUsername;
-	private Users usersByUserId;
+	private User userByUsername;
+	private User userByUserId;
 	private int rowstate;
 	private int loggedby;
 	private Date loggeddate;
 	private Integer lastupdatedby;
 	private Date lastupdateddate;
 
-	public UserRoles() {
+	public UserRole() {
 	}
 
-	public UserRoles(Roles roles, Users usersByUsername, Users usersByUserId, int rowstate, int loggedby,
+	public UserRole(Roles roles, User userByUsername, User userByUserId, int rowstate, int loggedby,
 			Date loggeddate) {
 		this.roles = roles;
-		this.usersByUsername = usersByUsername;
-		this.usersByUserId = usersByUserId;
+		this.userByUsername = userByUsername;
+		this.userByUserId = userByUserId;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
 	}
 
-	public UserRoles(Roles roles, Users usersByUsername, Users usersByUserId, int rowstate, int loggedby,
+	public UserRole(Roles roles, User userByUsername, User userByUserId, int rowstate, int loggedby,
 			Date loggeddate, Integer lastupdatedby, Date lastupdateddate) {
 		this.roles = roles;
-		this.usersByUsername = usersByUsername;
-		this.usersByUserId = usersByUserId;
+		this.userByUsername = userByUsername;
+		this.userByUserId = userByUserId;
 		this.rowstate = rowstate;
 		this.loggedby = loggedby;
 		this.loggeddate = loggeddate;
@@ -94,22 +94,22 @@ public class UserRoles implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "username", nullable = false)
-	public Users getUsersByUsername() {
-		return this.usersByUsername;
+	public User getUserByUsername() {
+		return this.userByUsername;
 	}
 
-	public void setUsersByUsername(Users usersByUsername) {
-		this.usersByUsername = usersByUsername;
+	public void setUserByUsername(User userByUsername) {
+		this.userByUsername = userByUsername;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
-	public Users getUsersByUserId() {
-		return this.usersByUserId;
+	public User getUserByUserId() {
+		return this.userByUserId;
 	}
 
-	public void setUsersByUserId(Users usersByUserId) {
-		this.usersByUserId = usersByUserId;
+	public void setUserByUserId(User userByUserId) {
+		this.userByUserId = userByUserId;
 	}
 
 	@Column(name = "rowstate", nullable = false)
@@ -161,7 +161,7 @@ public class UserRoles implements java.io.Serializable {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.getUserRoleId()).append(this.getUsersByUserId().getId())
+		return new HashCodeBuilder().append(this.getUserRoleId()).append(this.getUserByUserId().getId())
 				.append(this.getRoles().getId()).toHashCode();
 	}
 
@@ -176,16 +176,16 @@ public class UserRoles implements java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		UserRoles other = (UserRoles) obj;
+		UserRole other = (UserRole) obj;
 		return new EqualsBuilder().append(this.getUserRoleId(), other.getUserRoleId())
-				.append(this.getUsersByUserId().getId(), other.getUsersByUserId().getId())
+				.append(this.getUserByUserId().getId(), other.getUserByUserId().getId())
 				.append(this.getRoles().getId(), other.getRoles().getId()).isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return "UserRoles [userRoleId=" + userRoleId + ", roles=" + roles + ", usersByUsername=" + usersByUsername
-				+ ", usersByUserId=" + usersByUserId + ", rowstate=" + rowstate + ", loggedby=" + loggedby
+		return "UserRole [userRoleId=" + userRoleId + ", roles=" + roles + ", userByUsername=" + userByUsername
+				+ ", userByUserId=" + userByUserId + ", rowstate=" + rowstate + ", loggedby=" + loggedby
 				+ ", loggeddate=" + loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate="
 				+ lastupdateddate + "]";
 	}

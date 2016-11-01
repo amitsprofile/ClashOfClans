@@ -23,9 +23,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@Table(name = "users", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
-public class Users implements java.io.Serializable, UserDetails {
+@Table(name = "user", catalog = "aptmgmt", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
+public class User implements java.io.Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	private String username;
@@ -37,11 +39,11 @@ public class Users implements java.io.Serializable, UserDetails {
 	private Date loggeddate;
 	private Integer lastupdatedby;
 	private Date lastupdateddate;
-	private Set<UserRoles> userRolesesForUsername = new HashSet<UserRoles>(0);
+	private Set<UserRole> userRoleesForUsername = new HashSet<UserRole>(0);
 	private Set<House> housesForResidentid = new HashSet<House>(0);
 	private Set<House> housesForOwnerid = new HashSet<House>(0);
 	private Set<Society> societies = new HashSet<Society>(0);
-	private Set<UserRoles> userRolesesForUserId = new HashSet<UserRoles>(0);
+	private Set<UserRole> userRoleesForUserId = new HashSet<UserRole>(0);
 
 	/* Spring Security related fields */
 	@Transient
@@ -89,10 +91,10 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	public Users() {
+	public User() {
 	}
 
-	public Users(int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate) {
+	public User(int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate) {
 		this.id = id;
 		this.password = password;
 		this.enabled = enabled;
@@ -101,17 +103,17 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.loggeddate = loggeddate;
 	}
 
-	public Users(int id, String username, String password, boolean enabled) {
+	public User(int id, String username, String password, boolean enabled) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
 	}
 
-	public Users(String username, int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate,
-			Integer lastupdatedby, Date lastupdateddate, Set<UserRoles> userRolesesForUsername,
+	public User(String username, int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate,
+			Integer lastupdatedby, Date lastupdateddate, Set<UserRole> userRoleesForUsername,
 			Set<House> housesForResidentid, Set<House> housesForOwnerid, Set<Society> societies,
-			Set<UserRoles> userRolesesForUserId, Set<Roles> authorities, boolean accountNonExpired,
+			Set<UserRole> userRoleesForUserId, Set<Roles> authorities, boolean accountNonExpired,
 			boolean accountNonLocked, boolean credentialsNonExpired) {
 		super();
 		this.username = username;
@@ -123,21 +125,21 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.loggeddate = loggeddate;
 		this.lastupdatedby = lastupdatedby;
 		this.lastupdateddate = lastupdateddate;
-		this.userRolesesForUsername = userRolesesForUsername;
+		this.userRoleesForUsername = userRoleesForUsername;
 		this.housesForResidentid = housesForResidentid;
 		this.housesForOwnerid = housesForOwnerid;
 		this.societies = societies;
-		this.userRolesesForUserId = userRolesesForUserId;
+		this.userRoleesForUserId = userRoleesForUserId;
 		this.authorities = authorities;
 		this.accountNonExpired = accountNonExpired;
 		this.accountNonLocked = accountNonLocked;
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	public Users(int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate,
-			Integer lastupdatedby, Date lastupdateddate, Set<UserRoles> userRolesesForUsername,
+	public User(int id, String password, boolean enabled, int rowstate, int loggedby, Date loggeddate,
+			Integer lastupdatedby, Date lastupdateddate, Set<UserRole> userRoleesForUsername,
 			Set<House> housesForResidentid, Set<House> housesForOwnerid, Set<Society> societies,
-			Set<UserRoles> userRolesesForUserId) {
+			Set<UserRole> userRoleesForUserId) {
 		this.id = id;
 		this.password = password;
 		this.enabled = enabled;
@@ -146,11 +148,11 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.loggeddate = loggeddate;
 		this.lastupdatedby = lastupdatedby;
 		this.lastupdateddate = lastupdateddate;
-		this.userRolesesForUsername = userRolesesForUsername;
+		this.userRoleesForUsername = userRoleesForUsername;
 		this.housesForResidentid = housesForResidentid;
 		this.housesForOwnerid = housesForOwnerid;
 		this.societies = societies;
-		this.userRolesesForUserId = userRolesesForUserId;
+		this.userRoleesForUserId = userRoleesForUserId;
 	}
 
 	
@@ -183,10 +185,6 @@ public class Users implements java.io.Serializable, UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	/*
-	 * public boolean getEnabled() { return this.enabled; }
-	 */
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
@@ -239,16 +237,18 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.lastupdateddate = lastupdateddate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByUsername")
-	public Set<UserRoles> getUserRolesesForUsername() {
-		return this.userRolesesForUsername;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUsername")
+	@JsonManagedReference
+	public Set<UserRole> getUserRoleesForUsername() {
+		return this.userRoleesForUsername;
 	}
 
-	public void setUserRolesesForUsername(Set<UserRoles> userRolesesForUsername) {
-		this.userRolesesForUsername = userRolesesForUsername;
+	public void setUserRoleesForUsername(Set<UserRole> userRoleesForUsername) {
+		this.userRoleesForUsername = userRoleesForUsername;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByResidentid")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userByResidentid")
+	@JsonManagedReference
 	public Set<House> getHousesForResidentid() {
 		return this.housesForResidentid;
 	}
@@ -257,7 +257,8 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.housesForResidentid = housesForResidentid;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByOwnerid")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userByOwnerid")
+	@JsonManagedReference
 	public Set<House> getHousesForOwnerid() {
 		return this.housesForOwnerid;
 	}
@@ -266,7 +267,8 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.housesForOwnerid = housesForOwnerid;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonManagedReference
 	public Set<Society> getSocieties() {
 		return this.societies;
 	}
@@ -275,13 +277,14 @@ public class Users implements java.io.Serializable, UserDetails {
 		this.societies = societies;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByUserId")
-	public Set<UserRoles> getUserRolesesForUserId() {
-		return this.userRolesesForUserId;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserId")
+	@JsonManagedReference
+	public Set<UserRole> getUserRoleesForUserId() {
+		return this.userRoleesForUserId;
 	}
 
-	public void setUserRolesesForUserId(Set<UserRoles> userRolesesForUserId) {
-		this.userRolesesForUserId = userRolesesForUserId;
+	public void setUserRoleesForUserId(Set<UserRole> userRoleesForUserId) {
+		this.userRoleesForUserId = userRoleesForUserId;
 	}
 
 	@Override
@@ -300,19 +303,19 @@ public class Users implements java.io.Serializable, UserDetails {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Users other = (Users) obj;
+		User other = (User) obj;
 		return new EqualsBuilder().append(this.getId(), other.getId()).append(this.getUsername(), other.getUsername())
 				.isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return "Users [username=" + username + ", id=" + id + ", password=" + password + ", enabled=" + enabled
+		return "User [username=" + username + ", id=" + id + ", password=" + password + ", enabled=" + enabled
 				+ ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate=" + loggeddate
 				+ ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate
-				+ ", userRolesesForUsername=" + userRolesesForUsername + ", housesForResidentid=" + housesForResidentid
-				+ ", housesForOwnerid=" + housesForOwnerid + ", societies=" + societies + ", userRolesesForUserId="
-				+ userRolesesForUserId + "]";
+				+ ", userRoleesForUsername=" + userRoleesForUsername + ", housesForResidentid=" + housesForResidentid
+				+ ", housesForOwnerid=" + housesForOwnerid + ", societies=" + societies + ", userRoleesForUserId="
+				+ userRoleesForUserId + "]";
 	}
 
 	@Override

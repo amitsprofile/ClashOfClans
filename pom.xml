@@ -279,12 +279,12 @@
 		</dependency>
 
 
-<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
-<dependency>
-    <groupId>org.javassist</groupId>
-    <artifactId>javassist</artifactId>
-    <version>${javaassist.version}</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javaassist.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -339,6 +339,13 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.5.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-juli -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-juli</artifactId>
+			<version>8.0.5</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -374,7 +381,7 @@
 					<server>localTomcat</server>
 					<update>true</update>
 					<warFile>target/aptmgmt-1.0.war</warFile>
-					<username>tomcat</username>
+					<username>pmanwani</username>
 					<password>welcome1</password>
 				</configuration>
 			</plugin>

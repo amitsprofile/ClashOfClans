@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aptmgmt.model.House;
-import com.aptmgmt.model.Users;
+import com.aptmgmt.model.User;
 import com.aptmgmt.services.BuildingService;
 import com.aptmgmt.services.HouseService;
 import com.aptmgmt.services.SocietyService;
@@ -51,12 +51,12 @@ public class LoginController {
 
 	@RequestMapping(value = "nomap", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Users login(@RequestParam(value = "error", required = false) String error,
+	public User login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Users user = null;
-		if (principal instanceof Users) {
-			user = ((Users) principal);
+		User user = null;
+		if (principal instanceof User) {
+			user = ((User) principal);
 		}
 		return user;
 	}
@@ -64,10 +64,10 @@ public class LoginController {
 	@RequestMapping(value = "getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public House getUser() {
-		Integer id = ((Users) userService.loadUserByUsername("manwaniprakash87@gmail.com")).getId();
-		System.out.println(id);
-		return houseService
+		Integer id = ((User) userService.loadUserByUsername("manwaniprakash87@gmail.com")).getId();
+		House hs = houseService
 				.findHouseByUserId(id);
+		return hs;
 	}
 
 }

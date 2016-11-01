@@ -23,6 +23,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 /**
  * Society Model
  * @author Prakash Manwani
@@ -35,7 +38,7 @@ public class Society implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Users users;
+	private User user;
 	private String socid;
 	private String name;
 	private String address;
@@ -50,8 +53,8 @@ public class Society implements java.io.Serializable {
 	public Society() {
 	}
 
-	public Society(Users users, String socid, String name, int rowstate, int loggedby, Date loggeddate) {
-		this.users = users;
+	public Society(User user, String socid, String name, int rowstate, int loggedby, Date loggeddate) {
+		this.user = user;
 		this.socid = socid;
 		this.name = name;
 		this.rowstate = rowstate;
@@ -59,9 +62,9 @@ public class Society implements java.io.Serializable {
 		this.loggeddate = loggeddate;
 	}
 
-	public Society(Users users, String socid, String name, String address, String contact, int rowstate, int loggedby,
+	public Society(User user, String socid, String name, String address, String contact, int rowstate, int loggedby,
 			Date loggeddate, Integer lastupdatedby, Date lastupdateddate, Set<Building> buildings) {
-		this.users = users;
+		this.user = user;
 		this.socid = socid;
 		this.name = name;
 		this.address = address;
@@ -88,12 +91,13 @@ public class Society implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "managerid", nullable = false)
-	public Users getUsers() {
-		return this.users;
+	@JsonBackReference
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUsers(Users users) {
-		this.users = users;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Column(name = "socid", unique = true, nullable = false, length = 10)
@@ -180,6 +184,7 @@ public class Society implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "society")
+	@JsonManagedReference
 	public Set<Building> getBuildings() {
 		return this.buildings;
 	}
@@ -209,7 +214,7 @@ public class Society implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Society [id=" + id + ", users=" + users + ", socid=" + socid + ", name=" + name + ", address=" + address
+		return "Society [id=" + id + ", user=" + user + ", socid=" + socid + ", name=" + name + ", address=" + address
 				+ ", contact=" + contact + ", rowstate=" + rowstate + ", loggedby=" + loggedby + ", loggeddate="
 				+ loggeddate + ", lastupdatedby=" + lastupdatedby + ", lastupdateddate=" + lastupdateddate
 				+ ", buildings=" + buildings + "]";

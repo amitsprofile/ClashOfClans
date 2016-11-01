@@ -10,18 +10,18 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.aptmgmt.model.Users;
+import com.aptmgmt.model.User;
 
 @Repository
 @Stateless
-public class UsersDAOImpl implements UsersDAO {
-	private static final Log log = LogFactory.getLog(UsersDAO.class);
+public class UserDAOImpl implements UserDAO {
+	private static final Log log = LogFactory.getLog(UserDAO.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void persist(Users transientInstance) {
-		log.debug("persisting Users instance");
+	public void persist(User transientInstance) {
+		log.debug("persisting User instance");
 		try {
 			entityManager.persist(transientInstance);
 			log.debug("persist successful");
@@ -31,8 +31,8 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 	}
 
-	public void remove(Users persistentInstance) {
-		log.debug("removing Users instance");
+	public void remove(User persistentInstance) {
+		log.debug("removing User instance");
 		try {
 			entityManager.remove(persistentInstance);
 			log.debug("remove successful");
@@ -42,11 +42,11 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 	}
 
-	public Users merge(Users detachedInstance) {
-		log.debug("merging Users instance");
+	public User merge(User detachedInstance) {
+		log.debug("merging User instance");
 		try {
 			detachedInstance.setPassword(new BCryptPasswordEncoder().encode(detachedInstance.getPassword()));
-			Users result = entityManager.merge(detachedInstance);
+			User result = entityManager.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -55,10 +55,10 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 	}
 
-	public Users findById(String id) {
-		log.debug("getting Users instance with id: " + id);
+	public User findById(String id) {
+		log.debug("getting User instance with id: " + id);
 		try {
-			Users instance = entityManager.find(Users.class, id);
+			User instance = entityManager.find(User.class, id);
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
@@ -67,11 +67,11 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 	}
 	
-	public Users findByUsername(String username) {
-		String hql = "SELECT hs FROM Users hs WHERE hs.username=:username";
-		TypedQuery<Users> query = this.entityManager.createQuery(hql, Users.class);
+	public User findByUsername(String username) {
+		String hql = "SELECT hs FROM User hs WHERE hs.username=:username";
+		TypedQuery<User> query = this.entityManager.createQuery(hql, User.class);
 		query.setParameter("username", username);
-		Users instance = query.getSingleResult();
+		User instance = query.getSingleResult();
 		return instance;
 	}
 }

@@ -8,18 +8,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 
-import com.aptmgmt.model.UserRoles;
+import com.aptmgmt.model.UserRole;
 
 @Repository
 @Stateless
-public class UserRolesDAOImpl implements UserRolesDAO {
-	private static final Log log = LogFactory.getLog(UserRolesDAO.class);
+public class UserRoleDAOImpl implements UserRoleDAO {
+	private static final Log log = LogFactory.getLog(UserRoleDAO.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void persist(UserRoles transientInstance) {
-		log.debug("persisting UserRoles instance");
+	public void persist(UserRole transientInstance) {
+		log.debug("persisting UserRole instance");
 		try {
 			entityManager.persist(transientInstance);
 			log.debug("persist successful");
@@ -29,8 +29,8 @@ public class UserRolesDAOImpl implements UserRolesDAO {
 		}
 	}
 
-	public void remove(UserRoles persistentInstance) {
-		log.debug("removing UserRoles instance");
+	public void remove(UserRole persistentInstance) {
+		log.debug("removing UserRole instance");
 		try {
 			entityManager.remove(persistentInstance);
 			log.debug("remove successful");
@@ -40,10 +40,10 @@ public class UserRolesDAOImpl implements UserRolesDAO {
 		}
 	}
 
-	public UserRoles merge(UserRoles detachedInstance) {
-		log.debug("merging UserRoles instance");
+	public UserRole merge(UserRole detachedInstance) {
+		log.debug("merging UserRole instance");
 		try {
-			UserRoles result = entityManager.merge(detachedInstance);
+			UserRole result = entityManager.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -52,10 +52,10 @@ public class UserRolesDAOImpl implements UserRolesDAO {
 		}
 	}
 
-	public UserRoles findById(Integer id) {
-		log.debug("getting UserRoles instance with id: " + id);
+	public UserRole findById(Integer id) {
+		log.debug("getting UserRole instance with id: " + id);
 		try {
-			UserRoles instance = entityManager.find(UserRoles.class, id);
+			UserRole instance = entityManager.find(UserRole.class, id);
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {

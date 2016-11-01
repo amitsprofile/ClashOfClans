@@ -1,7 +1,5 @@
 package com.aptmgmt.dao;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -100,24 +98,11 @@ public class HouseDAOImpl implements HouseDAO {
 	}
 
 	public House findByUserId(Integer userId) {
-		
-		try{
-			String hql = "SELECT hs FROM House hs WHERE hs.usersByResidentid.id=:userId or hs.usersByOwnerid.id=:userId";
+		String hql = "SELECT hs FROM House hs WHERE hs.userByResidentid.id=:userId or hs.userByOwnerid.id=:userId";
 		TypedQuery<House> query = this.entityManager.createQuery(hql, House.class);
 		query.setParameter("userId", userId);
 		House instance = query.getSingleResult();
-		
-
-			FileOutputStream fout = new FileOutputStream("house.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(instance);
-			oos.close();
-			System.out.println("Done");
-
-		   }catch(Exception ex){
-			   ex.printStackTrace();
-		   }
-		return null;
+		return instance;
 	}
 
 	@Override
