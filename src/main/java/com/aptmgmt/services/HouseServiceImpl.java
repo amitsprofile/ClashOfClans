@@ -2,18 +2,15 @@ package com.aptmgmt.services;
 
 import java.util.List;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aptmgmt.dao.HouseDAO;
-import com.aptmgmt.model.House;
+import com.aptmgmt.dao.house.HouseDAO;
+import com.aptmgmt.entity.House;
 
 @Service
 public class HouseServiceImpl implements HouseService {
 
-	@Autowired
 	private HouseDAO houseDao;
 	
 	@Transactional
@@ -42,6 +39,19 @@ public class HouseServiceImpl implements HouseService {
 	@Transactional
 	public House findHouseByUserId(Integer userId){
 		return houseDao.findByUserId(userId);
+	}
+	
+	@Transactional
+	public Integer getMaxId(){
+		return houseDao.findMaxId();
+	}
+
+	public void setHouseDao(HouseDAO houseDao) {
+		this.houseDao = houseDao;
+	}
+
+	public HouseDAO getHouseDao() {
+		return houseDao;
 	}
 	
 }

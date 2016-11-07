@@ -20,6 +20,7 @@
 	<cache:annotation-driven />
 	<context:component-scan base-package="com.aptmgmt.*" />
 	<import resource="classpath:../jpaConfig/jpa-datasource.xml" />
+	<import resource="classpath:bean-def.xml" />
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	<bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy" />
@@ -65,5 +66,11 @@
 		<property name="configLocation" value="classpath:../ehcache-logger/ehcache.xml" />
 		<property name="shared" value="true" />
 	</bean>
+	
+	<!--
+		INIT REST COMPONENTS 
+	 -->
+	
+	<bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper" />
 
 </beans>

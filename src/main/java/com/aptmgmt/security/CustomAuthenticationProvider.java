@@ -11,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.aptmgmt.model.User;
+import com.aptmgmt.entity.User;
 import com.aptmgmt.services.UserDetailService;
 
 @Component
@@ -42,5 +42,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
     public boolean supports(Class<?> arg0) {
         return true;
     }
+
+	public void setUserService(UserDetailService userService) {
+		this.userService = userService;
+	}
+
+	public UserDetailService getUserService() {
+		return userService;
+	}
  
 }

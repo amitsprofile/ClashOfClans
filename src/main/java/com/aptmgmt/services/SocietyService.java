@@ -2,7 +2,7 @@ package com.aptmgmt.services;
 
 import java.util.List;
 
-import com.aptmgmt.model.Society;
+import com.aptmgmt.entity.Society;
 
 public interface SocietyService {
 
@@ -13,5 +13,7 @@ public interface SocietyService {
 	public List<Society> listAllSociety();
 	
 	public Society findBySocietyName(String societyName);
+	
+	public Integer getMaxId();
 	
 }

@@ -2,7 +2,7 @@ package com.aptmgmt.services;
 
 import java.util.List;
 
-import com.aptmgmt.model.House;
+import com.aptmgmt.entity.House;
 
 public interface HouseService {
 
@@ -15,4 +15,7 @@ public interface HouseService {
 	public House findByHouseNumber(String houseNumber);
 
 	public House findHouseByUserId(Integer userId);
+	
+	public Integer getMaxId();
+	
 }

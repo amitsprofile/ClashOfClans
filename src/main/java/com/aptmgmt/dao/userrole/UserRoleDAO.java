@@ -1,8 +1,9 @@
-package com.aptmgmt.dao;
+package com.aptmgmt.dao.userrole;
 
-import com.aptmgmt.model.UserRole;
+import com.aptmgmt.dao.Dao;
+import com.aptmgmt.entity.UserRole;
 
-public interface UserRoleDAO {
+public interface UserRoleDAO  extends Dao<UserRole, Long> {
 
 	public void persist(UserRole transientInstance);
 
@@ -11,4 +12,6 @@ public interface UserRoleDAO {
 	public UserRole merge(UserRole detachedInstance);
 
 	public UserRole findById(Integer id);
+	
+	public Integer findMaxId();
 }

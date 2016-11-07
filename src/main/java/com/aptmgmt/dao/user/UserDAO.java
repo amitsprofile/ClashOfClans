@@ -1,8 +1,9 @@
-package com.aptmgmt.dao;
+package com.aptmgmt.dao.user;
 
-import com.aptmgmt.model.User;
+import com.aptmgmt.dao.Dao;
+import com.aptmgmt.entity.User;
 
-public interface UserDAO {
+public interface UserDAO  extends Dao<User, Long> {
 
 	public void persist(User transientInstance);
 
@@ -13,4 +14,6 @@ public interface UserDAO {
 	public User findById(String id);
 
 	public User findByUsername(String username);
+	
+	public Integer findMaxId();
 }

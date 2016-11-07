@@ -1,12 +1,13 @@
-package com.aptmgmt.dao;
+package com.aptmgmt.dao.house;
 
 import java.util.List;
 
-import com.aptmgmt.model.Building;
-import com.aptmgmt.model.House;
-import com.aptmgmt.model.Society;
+import com.aptmgmt.dao.Dao;
+import com.aptmgmt.entity.Building;
+import com.aptmgmt.entity.House;
+import com.aptmgmt.entity.Society;
 
-public interface HouseDAO {
+public interface HouseDAO  extends Dao<House, Long> {
 
 	public void persist(House transientInstance);
 
@@ -23,5 +24,7 @@ public interface HouseDAO {
 	public House findByUniqueKey(Society society, Building building, String houseNumber);
 	
 	public House findByUserId(Integer userId);
+	
+	public Integer findMaxId();
 	
 }

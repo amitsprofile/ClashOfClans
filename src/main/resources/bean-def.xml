@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+         http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+
+
+	<!-- DAO -->
+
+	<bean id="userRoleDao" class="com.aptmgmt.dao.userrole.UserRoleDAOImpl" />
+
+	<bean id="userDao" class="com.aptmgmt.dao.user.UserDAOImpl" />
+
+	<bean id="userInfoDao" class="com.aptmgmt.dao.userinfo.UserInfoDAOImpl" />
+
+	<bean id="societyDao" class="com.aptmgmt.dao.society.SocietyDAOImpl" />
+
+	<bean id="houseDao" class="com.aptmgmt.dao.house.HouseDAOImpl" />
+
+	<bean id="buildingDao" class="com.aptmgmt.dao.building.BuildingDAOImpl" />
+
+	<bean id="accessTokenDao" class="com.aptmgmt.dao.accesstoken.AccessTokenDAOImpl" />
+
+
+	<!-- Mappers -->
+
+	<bean id="entityMapper" class="com.aptmgmt.utils.EntityMapper">
+		<property name="userDao" ref="userDao"></property>
+		<property name="houseDao" ref="houseDao"></property>
+		<property name="buildingDao" ref="buildingDao"></property>
+		<property name="societyDao" ref="societyDao"></property>
+		<property name="accessTokenDao" ref="accessTokenDao"></property>
+		<property name="userRoleDao" ref="userRoleDao"></property>
+
+
+	</bean>
+
+	<bean id="modelMapper" class="com.aptmgmt.utils.ModelMapper" />
+
+
+	<!-- Services -->
+
+	<bean id="userService" class="com.aptmgmt.services.UserDetailServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+		<property name="accessTokenDao" ref="accessTokenDao"></property>
+		<property name="userInfoDao" ref="userInfoDao"></property>
+		<property name="entityMapper" ref="entityMapper"></property>
+		<property name="modelMapper" ref="modelMapper"></property>
+
+	</bean>
+
+	<bean id="societyService" class="com.aptmgmt.services.SocietyServiceImpl">
+		<property name="societyDao" ref="societyDao"></property>
+	</bean>
+
+	<bean id="houseService" class="com.aptmgmt.services.HouseServiceImpl">
+		<property name="houseDao" ref="houseDao"></property>
+	</bean>
+
+	<bean id="buildingService" class="com.aptmgmt.services.BuildingServiceImpl">
+		<property name="buildingDao" ref="buildingDao"></property>
+	</bean>
+
+
+	<!-- Controller -->
+
+	<bean id="userController" class="com.aptmgmt.controller.UserController">
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+	<bean id="societyController" class="com.aptmgmt.controller.SocietyController">
+		<property name="societyService" ref="societyService"></property>
+	</bean>
+
+	<bean id="loginController" class="com.aptmgmt.controller.LoginController">
+		<property name="societyService" ref="societyService"></property>
+		<property name="buildingService" ref="buildingService"></property>
+		<property name="houseService" ref="houseService"></property>
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+	<bean id="houseController" class="com.aptmgmt.controller.HouseController">
+		<property name="houseService" ref="houseService"></property>
+	</bean>
+
+	<bean id="buildingController" class="com.aptmgmt.controller.BuildingController">
+		<property name="buildingService" ref="buildingService"></property>
+	</bean>
+
+
+
+	<!-- Authentication Token -->
+
+	<bean id="unauthorizedEntryPoint" class="com.aptmgmt.rest.UnauthorizedEntryPoint" />
+
+	<bean id="authenticationTokenProcessingFilter" class="com.aptmgmt.rest.AuthenticationTokenProcessingFilter">
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+
+	<bean id="customAuthenticationProvider" class="com.aptmgmt.security.CustomAuthenticationProvider">
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+</beans>

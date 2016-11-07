@@ -1,10 +1,11 @@
-package com.aptmgmt.dao;
+package com.aptmgmt.dao.society;
 
 import java.util.List;
 
-import com.aptmgmt.model.Society;
+import com.aptmgmt.dao.Dao;
+import com.aptmgmt.entity.Society;
 
-public interface SocietyDAO {
+public interface SocietyDAO  extends Dao<Society, Long> {
 	
 	public void persist(Society transientInstance);
 
@@ -17,5 +18,7 @@ public interface SocietyDAO {
 	public List<Society> findAll();
 	
 	public Society findByUniqueKey(String societyName);
+	
+	public Integer findMaxId();
 	
 }

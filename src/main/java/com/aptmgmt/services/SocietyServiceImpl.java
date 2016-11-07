@@ -2,17 +2,15 @@ package com.aptmgmt.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aptmgmt.dao.SocietyDAO;
-import com.aptmgmt.model.Society;
+import com.aptmgmt.dao.society.SocietyDAO;
+import com.aptmgmt.entity.Society;
 
 @Service
 public class SocietyServiceImpl implements SocietyService {
 
-	@Autowired
 	private SocietyDAO societyDao;
 	
 	@Transactional
@@ -36,6 +34,19 @@ public class SocietyServiceImpl implements SocietyService {
 	@Transactional
 	public Society findBySocietyName(String societyName){
 		return societyDao.findByUniqueKey(societyName);
+	}
+	
+	@Transactional
+	public Integer getMaxId(){
+		return societyDao.findMaxId();
+	}
+
+	public void setSocietyDao(SocietyDAO societyDao) {
+		this.societyDao = societyDao;
+	}
+
+	public SocietyDAO getSocietyDao() {
+		return societyDao;
 	}
 	
 }

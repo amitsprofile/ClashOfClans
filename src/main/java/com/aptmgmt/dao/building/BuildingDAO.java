@@ -1,11 +1,12 @@
-package com.aptmgmt.dao;
+package com.aptmgmt.dao.building;
 
 import java.util.List;
 
-import com.aptmgmt.model.Building;
-import com.aptmgmt.model.Society;
+import com.aptmgmt.dao.Dao;
+import com.aptmgmt.entity.Building;
+import com.aptmgmt.entity.Society;
 
-public interface BuildingDAO {
+public interface BuildingDAO extends Dao<Building, Long> {
 
 	public void persist(Building transientInstance);
 
@@ -20,5 +21,7 @@ public interface BuildingDAO {
 	public Building find(String buildingName);
 	
 	public Building findByUniqueKey(Society society, String buildingId);
+	
+	public Integer findMaxId();
 	
 }
